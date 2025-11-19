@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">import React, { useState } from 'react';</span></p>
+<p class="p1"><span class="s1">import { MoodSelector } from './components/MoodSelector';</span></p>
+<p class="p1"><span class="s1">import { PosterDisplay } from './components/PosterDisplay';</span></p>
+<p class="p1"><span class="s1">import { generateDemotivationalPoster } from './services/geminiService';</span></p>
+<p class="p1"><span class="s1">import { MoodType, GeneratedPosterData } from './types';</span></p>
+<p class="p1"><span class="s1">import { Sparkles, CloudRain } from 'lucide-react';</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">const App: React.FC = () =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const [currentMood, setCurrentMood] = useState&lt;MoodType | null&gt;(null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const [posterData, setPosterData] = useState&lt;GeneratedPosterData | null&gt;(null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const [loading, setLoading] = useState(false);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const [error, setError] = useState&lt;string | null&gt;(null);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const handleMoodSelect = async (mood: MoodType) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setCurrentMood(mood);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setLoading(true);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setError(null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setPosterData(null);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>try {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const data = await generateDemotivationalPoster(mood);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>setPosterData(data);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} catch (err) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>console.error(err);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>setError("Oops! The fluff machine got jammed. Try again?");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>setCurrentMood(null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} finally {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>setLoading(false);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const handleReset = () =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setCurrentMood(null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setPosterData(null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setError(null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>return (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div className="min-h-screen bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 py-10 px-4 flex flex-col items-center font-sans"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{/* Header */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;header className="mb-12 text-center animate-fade-in"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div className="inline-block p-4 bg-black rounded-full shadow-[8px_8px_0px_rgba(0,0,0,0.15)] mb-4 border-4 border-white transform -rotate-3"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;span className="text-5xl"&gt;🧸&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h1 className="text-5xl md:text-6xl font-black text-white tracking-tighter drop-shadow-lg stroke-black"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>DEMOTIVATIONAL &lt;span className="text-yellow-300 font-handwriting transform inline-block rotate-2"&gt;Fluff&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p className="text-white/90 mt-3 text-xl font-bold tracking-wide uppercase"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>Cute animals. Terrible advice.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{/* Main Content Area */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;main className="w-full max-w-3xl"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{/* State: Initial Selection */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{!loading &amp;&amp; !posterData &amp;&amp; !error &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div className="animate-fade-in-up"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;MoodSelector onSelect={handleMoodSelect} disabled={loading} /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{/* State: Loading */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{loading &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div className="flex flex-col items-center justify-center py-20 text-center space-y-8 animate-pulse"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div className="relative"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div className="w-32 h-32 bg-white rounded-full border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.2)] flex items-center justify-center animate-bounce"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;Sparkles className="text-yellow-400 w-16 h-16 fill-current" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;h3 className="text-3xl font-black text-white drop-shadow-md uppercase"&gt;Stitching the horror...&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;p className="text-white/80 font-bold mt-2 text-lg"&gt;Generating bad advice for {currentMood} vibes.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{/* State: Error */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{error &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div className="bg-red-500 border-4 border-black p-8 rounded-2xl shadow-[8px_8px_0px_rgba(0,0,0,0.2)] mb-8 text-center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div className="flex justify-center mb-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;CloudRain className="text-white w-16 h-16" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p className="text-white font-black text-2xl uppercase tracking-wide"&gt;{error}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>onClick={handleReset}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>className="mt-6 bg-white text-black border-2 border-black px-6 py-2 rounded-full font-bold hover:bg-gray-100 hover:scale-105 transition-transform"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>TRY AGAIN</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{/* State: Result */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{posterData &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;PosterDisplay data={posterData} onReset={handleReset} /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/main&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{/* Footer */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;footer className="mt-auto pt-12 text-white/70 text-sm text-center font-bold"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;© {new Date().getFullYear()} DEMOTIVATIONAL FLUFF INC.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p className="text-xs mt-1 opacity-75"&gt;POWERED BY GEMINI &amp; IMAGEN&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/footer&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{/* Global Keyframe Animations */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;style&gt;{`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes fadeInUp {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>from { opacity: 0; transform: translateY(40px); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>to { opacity: 1; transform: translateY(0); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.animate-fade-in-up {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes fadeIn {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>from { opacity: 0; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>to { opacity: 1; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.animate-fade-in {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>animation: fadeIn 0.8s ease-out forwards;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>`}&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>);</span></p>
+<p class="p1"><span class="s1">};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">export default App;</span></p>
+</body>
+</html>
